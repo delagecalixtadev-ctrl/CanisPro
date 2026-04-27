@@ -38,6 +38,40 @@ bash
 symfony console make:Entity nomEntity
 ```
 
+Création d'un CRUD :
+```
+bash
+symfony console make:crud nomEntity
+```
+
+Création d'un From :
+```
+bash
+symfony console make:form nomEntity
+```
+
+Vider le cache 
+```
+bash
+symfony console cache:clear 
+```
+Relation entre Entity :
+```
+symfony console make:Entity nomEntity
+
+nom de la variable : nomDeLaEntityRelation
+
+type : relation 
+
+entity be related : nomDeLaEntityRelation
+
+relation : (MamyToMany, ManyToOne ...)
+
+nullable? : yes
+
+entré
+```
+
 Création d'une migration :
 ```
 bash
