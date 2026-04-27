@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Séances Disponibles{% endblock %}
+
+{% block body %}
+<style>
+    body{
+        background-color: white;
+    }
+    .seance-container {
+        max-width: 900px;
+        margin: 20px auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .page-title {
+        font-family: 'Apple Chancery', 'Segoe Print', cursive;
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    /* Style des lignes de séance */
+    .seance-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: 1px solid #eee;
+    }
+
+    .seance-info {
+        flex: 1;
+    }
+
+    .seance-date-box {
+        background: #f0f7f8;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-align: center;
+        margin-right: 20px;
+        min-width: 80px;
+        color: #7baeb5;
+    }
+
+    .cours-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #444;
+        margin: 0;
+    }
+
+    .cours-time {
+        color: #888;
+        font-size: 0.9rem;
+    }
+
+    /* Zone des boutons d'inscription */
+    .inscription-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 180px;
+    }
+
+    .btn-inscription {
+        background-color: #7baeb5;
+        color: white;
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        text-align: center;
+        transition: 0.3s;
+        border: 1px solid transparent;
+    }
+
+    .btn-inscription:hover {
+        background-color: #5d8a91;
+    }
+
+    .no-dog-msg {
+        font-size: 0.8rem;
+        color: #999;
+        font-style: italic;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+        color: #7baeb5;
+        text-decoration: none;
+    }
+</style>
+
+<div class="seance-container">
+    <h1 class="page-title">Séances à venir</h1>
+
+    {% if seances is empty %}
+        <div style="text-align: center; color: #999; padding: 40px;">
+            <p>🐾 Aucune séance n'est programmée pour le moment. Revenez bientôt !</p>
+        </div>
+    {% else %}
+        {% for seance in seances %}
+            <div class="seance-card">
+                <div class="seance-date-box">
+                    <div style="font-weight: bold; font-size: 1.2rem;">{{ seance.date|date('d') }}</div>
+                    <div style="font-size: 0.8rem; text-transform: uppercase;">{{ seance.date|date('M') }}</div>
+                </div>
+
+                <div class="seance-info">
+                    <h3 class="cours-name">{{ seance.cours }}</h3>
+                    <span class="cours-time">🕒 {{ seance.heure|date('H:i') }}</span>
+                </div>
+
+                <div class="inscription-actions">
+                    <span style="font-size: 0.75rem; color: #aaa; text-align: center;">Inscrire :</span>
+                    {% for chien in proprietaire.chiens %}
+                        <a href="{{ path('membre_inscrire', {'seance': seance.id, 'chien': chien.id}) }}" 
+                           class="btn-inscription">
+                            🐾 {{ chien.nom }}
+                        </a>
+                    {% else %}
+                        <span class="no-dog-msg">Aucun chien enregistré</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{{ path('espace_personnel') }}" class="back-link">
+        ← Retour à mon espace personnel
+    </a>
+</div>
+{% endblock %}

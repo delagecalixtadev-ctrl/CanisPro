@@ -1,0 +1,144 @@
+{% extends "base.html.twig" %}
+
+{% block title %} Espace Personnel - {{ proprietaire.prenom }} {% endblock %}
+
+{% block body %}
+<style>
+    body{
+    background-color:  white;
+}
+    .espace-perso-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #555;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+    }
+
+    /* Style du titre "Bienvenue" calqué sur l'image */
+    .welcome-title {
+        font-family: 'Apple Chancery', 'Segoe Print', cursive;
+        font-size: 2.5rem;
+        color: #333;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .info-card {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1px solid #eef2f3;
+        position: relative;
+        z-index: 2;
+    }
+
+    .section-title {
+        color: #7baeb5; /* Le bleu des pattes/logo */
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+        margin-top: 25px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .info-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .info-list li {
+        padding: 12px 0;
+        border-bottom: 1px dashed #eee;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .info-list li:last-child { border-bottom: none; }
+
+    .label {
+        font-weight: bold;
+        color: #777;
+    }
+
+    .value {
+        color: #333;
+    }
+
+    /* Décoration : Les pattes en fond */
+    .paw-bg {
+        position: absolute;
+        bottom: -50px;
+        left: -30px;
+        opacity: 0.2;
+        z-index: 1;
+        width: 150px;
+    }
+
+    .btn-edit {
+        display: inline-block;
+        margin-top: 30px;
+        background-color: #7baeb5;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .btn-edit:hover {
+        background-color: #5d8a91;
+        color: white;
+    }
+</style>
+
+<div class="espace-perso-container">
+    
+    <h1 class="welcome-title">Bienvenue, {{ proprietaire.prenom }} !</h1>
+
+    <div class="info-card">
+        <h5 class="section-title">Informations personnelles</h5>
+        <ul class="info-list">
+            <li>
+                <span class="label">Nom complet</span>
+                <span class="value">{{ proprietaire.prenom }} {{ proprietaire.nom }}</span>
+            </li>
+            <li>
+                <span class="label">Date de naissance</span>
+                <span class="value">{{ proprietaire.dateNaissance}}</span>
+            </li>
+            <li>
+                <span class="label">Email</span>
+                <span class="value">
+                    {% if proprietaire.email %}
+                        <a href="mailto:{{ proprietaire.email }}" style="color: #7baeb5;">{{ proprietaire.email }}</a>
+                    {% else %}
+                        <span style="font-style: italic;">Non renseigné</span>
+                    {% endif %}
+                </span>
+            </li>
+            <li>
+                <span class="label">Téléphone</span>
+                <span class="value">{{ proprietaire.tel|default('Non renseigné') }}</span>
+            </li>
+
+            
+        </ul>
+
+        <h5 class="section-title">Adresse de résidence</h5>
+        <div style="padding: 15px 0;">
+            <p style="margin: 0; font-size: 1.1rem;">{{ proprietaire.adresse }}</p>
+            <p style="margin: 5px 0 0 0; font-weight: bold;">{{ proprietaire.codePostal }} {{ proprietaire.ville }}</p>
+        </div>
+                <a href="{{ path('membre_proprietaire_modification', {'id': proprietaire.id}) }}" class="btn-edit" role="button">Modifier</a>
+                <a href="{{ path('espace_chien', {'id': proprietaire.id}) }}" class="btn-edit">Gérer mes chiens</a>
+
+    </div>
+
+    {# Rappel visuel des pattes de chien comme sur ton image #}
+    <img src="{{ asset('images/pattes.png') }}" class="paw-bg" alt="decoration">
+</div>
+{% endblock %}

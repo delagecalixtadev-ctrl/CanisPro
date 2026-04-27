@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ isModification ? 'Modifier' : 'Ajouter' }} un chien{% endblock %}
+
+{% block body %}
+<style>
+    body{
+        background-color: white;
+    }
+    :root {
+        --main-blue: #54889c;
+        --input-bg: #e2eff2; /* bleu clair */
+        --border-light: #ccd5d8;
+        --text-gray: #4a4a4a;
+    }
+
+    .page-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-card {
+        background: white;
+        border: 1.5px solid var(--border-light);
+        border-radius: 40px;
+        padding: 40px 60px;
+        width: 100%;
+        max-width: 550px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .form-title {
+        text-align: center;
+        color: #333;
+        font-size: 1.8rem;
+        font-weight: 500;
+        margin-bottom: 35px;
+    }
+
+    .form-row {
+        margin-bottom: 20px;
+    }
+
+    .form-row label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-gray);
+        font-size: 0.95rem;
+    }
+
+    .form-row input, .form-row select, .form-row textarea {
+        width: 100%;
+        padding: 12px 15px;
+        background-color: var(--input-bg);
+        border: 1px solid transparent;
+        border-radius: 10px;
+        font-size: 1rem;
+        color: #555;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .form-row input:focus {
+        outline: none;
+        border-color: var(--main-blue);
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(84, 136, 156, 0.1);
+    }
+
+    .btn-submit {
+        display: block;
+        width: fit-content;
+        margin: 30px auto 0;
+        background-color: var(--main-blue);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 40px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.3s;
+    }
+
+    .btn-submit:hover {
+        background-color: #436e7f;
+        transform: translateY(-2px);
+    }
+
+    .form-errors ul {
+        list-style: none;
+        padding: 0;
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="form-card">
+        <h1 class="form-title"> WOUF! WOUF! Je suis :</h1>
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            
+
+        <div class="form-group" >
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.nom) }}
+        </div>
+
+        <div class="form-group" >
+            {{ form_label(form.dateNaissance) }}
+            {{ form_widget(form.dateNaissance, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.dateNaissance) }}
+        </div>
+
+        <div class="form-group" >
+            {{ form_label(form.race) }}
+            {{ form_widget(form.race, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.race) }}
+        </div>
+
+        <div class="form-group" >
+            {{ form_label(form.niveauxApprentissage) }}
+            {{ form_widget(form.niveauxApprentissage, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.niveauxApprentissage) }}
+        </div>
+
+        <div class="form-group" style="display: none;" >
+            {{ form_label(form.proprietaire) }}
+            {{ form_widget(form.proprietaire, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.proprietaire) }}
+        </div>
+
+        <div class="form-group" style="display: none;" >
+            {{ form_label(form.inscriptions) }}
+            {{ form_widget(form.inscriptions, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.inscriptions) }}
+        </div>
+
+
+
+
+            <button type="submit" class="btn-submit">
+                {{ isModification ? 'Mettre à jour' : 'Enregistrer' }}
+            </button>
+            
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

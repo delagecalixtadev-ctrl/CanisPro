@@ -1,0 +1,183 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MembreController!{% endblock %}
+
+{% block body %}
+<main class="contact-page">
+    <section class="contact-card">
+        <div class="contact-grid">
+            
+            <div class="contact-form-section">
+                <div class="section-title">
+                    <img src="{{ asset('img/envelope-icon.png') }}" alt="" class="icon">
+                    <h2>Contactez-nous</h2>
+                </div>
+
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="email">Adresse mail :</label>
+                        <input type="email" id="email" name="email" placeholder="Entrer votre adresse mail...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="8" placeholder="Entrer votre message..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">ENVOYER</button>
+                </form>
+            </div>
+
+            <div class="contact-info-section">
+                <div class="section-title">
+                    <img src="{{ asset('img/marker-icon.png') }}" alt="" class="icon">
+                    <h2>Retrouvez-nous</h2>
+                </div>
+
+                <div class="address-box">
+                    <h3>Adresse :</h3>
+                    <p class="address-text">2 Rue Jules Ferry, 64000 Pau</p>
+                </div>
+
+                <div class="map-container">
+                    <iframe 
+                        width="100%" 
+                        height="300" 
+                        style="border:0;" 
+                        loading="lazy" 
+                        allowfullscreen 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2903.541492211475!2d-0.3540036234125555!3d43.30310297112108!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5648f07065983d%3A0x633d690a28f11904!2s2%20Rue%20Jules%20Ferry%2C%2064000%20Pau!5e0!3m2!1sfr!2sfr!4v1710260000000!5m2!1sfr!2sfr">
+                    </iframe>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<style>
+/* --- Bases --- */
+.contact-page {
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+    background-color: #fff;
+}
+
+/* Le grand cadre arrondi */
+.contact-card {
+    width: 100%;
+    max-width: 1100px;
+    border: 1px solid #d1dadd;
+    border-radius: 40px; /* Bords très arrondis comme sur l'image */
+    padding: 60px;
+    background-color: #fff;
+}
+
+.contact-grid {
+    display: flex;
+    gap: 80px; /* Espace entre les deux colonnes */
+}
+
+.contact-form-section, .contact-info-section {
+    flex: 1;
+}
+
+/* Titres avec icônes */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.section-title h2 {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.icon {
+    width: 35px;
+    height: auto;
+}
+
+/* --- Formulaire --- */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: #e3eded; /* Couleur bleutée très claire des champs */
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #88a0a7;
+}
+
+.form-group textarea {
+    resize: none;
+}
+
+/* Bouton Envoyer */
+.btn-submit {
+    background-color: #548496; /* Le bleu CanisPro */
+    color: white;
+    padding: 12px 40px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background-color: #3d6372;
+}
+
+/* --- Colonne Droite (Adresse & Map) --- */
+.address-box h3 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.address-text {
+    color: #548496; /* Texte de l'adresse en bleu */
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.map-container {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .contact-grid {
+        flex-direction: column;
+        gap: 50px;
+    }
+    .contact-card {
+        padding: 30px;
+        border-radius: 20px;
+    }
+}
+</style>
+{% endblock %}

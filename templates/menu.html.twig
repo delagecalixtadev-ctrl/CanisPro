@@ -1,0 +1,115 @@
+<header class="main-header">
+    <div class="auth-links">
+        {% if app.user %}
+            <a href="{{ path ('deconnexion')}}">Deconnexion</a>
+        {% else %}
+            <a href="{{ path ('inscription')}}">Inscription</a>
+            <a href="{{ path ('connexion')}}">Connexion</a>
+        {% endif %}
+    </div>
+
+    <div class="logo-area">
+    <a href="{{ path('app_visiteur') }}">
+        <img src="{{ asset('img/logo.png') }}" alt="CanisPro Education">
+    </a>
+    </div>
+
+    <nav class="main-nav">
+        <ul>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('adminListeChiens')}}">Chiens</a></li>
+                <li><a href="{{ path('adminListeProprietaires')}}">Proprietaires</a></li>
+                <li><a href="{{ path('adminListeInscription')}}">Inscriptions</a></li>
+                <li><a href="{{ path('adminListeCours')}}">Cours</a></li>
+                <li><a href="{{ path('adminListeSeances')}}">Séances</a></li>
+                <li><a href="{{ path('adminListeInscription')}}">Inscriptions</a></li>
+            {% else %}
+                {% if is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('espace_personnel') }}">Mon espace</a></li>
+                    <li><a href="{{path('app_listeCours')}}">Cours</a></li>
+                    <li><a href="{{path('app_seance')}}">Séances</a></li>
+                    <li><a href="{{path('app_information')}}">Informations</a></li>
+                    <li><a href="{{path('app_contact')}}">Contactez-nous</a></li>
+                    
+
+                {% else %}
+                    <li><a href="{{path('app_listeCours')}}">Cours</a></li>
+                    <li><a href="{{path('app_seance')}}">Séances</a></li>
+                    <li><a href="{{path('app_information')}}">Informations</a></li>
+                    <li><a href="{{path('app_contact')}}">Contactez-nous</a></li>
+                {% endif %}
+        {% endif %} 
+        </ul>
+    </nav>
+</header>
+<style>
+/* STYLE DU MENU (CSS) */
+.main-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Liens en haut à droite */
+.auth-links {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+
+.auth-links a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-style: italic;
+    font-size: 20px;
+    transition: opacity 0.3s;
+}
+
+/* Zone du Logo */
+.logo-area {
+    margin-bottom: 25px;
+}
+
+.logo-area img {
+    height: 250px; /* Ajustez selon la taille de votre image */
+    display: block;
+}
+
+/* Navigation principale */
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav ul li a {
+    text-decoration: none;
+    color: #5d5d5d;
+    font-size: 15px;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.main-nav ul li a:hover {
+    color: #8fb1b3; /* Une nuance de bleu gris pour le survol */
+}
+
+/* Responsive simple */
+@media (max-width: 768px) {
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .auth-links {
+        justify-content: center;
+    }
+}
+</style>

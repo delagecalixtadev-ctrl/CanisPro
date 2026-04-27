@@ -1,0 +1,60 @@
+{# templates/inscription/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Inscription{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle Inscription</h1>
+
+    {{ form_start(form) }}
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="form-group" style="display: none;">
+            {{ form_label(form.nb_Chien_Inscrit) }}
+            {{ form_widget(form.nb_Chien_Inscrit, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.nb_Chien_Inscrit) }}
+        </div>
+
+        <div class="form-group" >
+            {{ form_label(form.seance) }}
+            {{ form_widget(form.seance, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.seance) }}
+        </div>
+        <div class="form-group" >
+            {{ form_widget(form.chien) }}
+        </div>
+        
+        {% else %}
+        <div class="form-group" style="display: none;">
+            {{ form_widget(form.chien) }}
+        </div>
+
+        <div class="form-group" style="display: none;">
+            {{ form_label(form.nb_Chien_Inscrit) }}
+            {{ form_widget(form.nb_Chien_Inscrit, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.nb_Chien_Inscrit) }}
+        </div>
+
+        <div class="form-group" style="display: none;">
+            {{ form_label(form.seance) }}
+            {{ form_widget(form.seance, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.seance) }}
+        </div>
+            <label for="chien">Choisir un chien :</label>
+                <select name="chien" id="chien" class="form-control">
+                    <option value="">-- Sélectionner --</option>
+                    {% for chien in chiens %}
+                        <option value="{{ chien.id }}">
+                            {{ chien.Nom }} {% if chien.race %}({{ chien.race.nom }}) {%else%}
+{% endif %}
+                        </option>
+                    {% endfor %}
+            </select>
+        </div>
+        {% endif %}
+
+       <div class="form-footer">
+            {{ include('cours/_form.html.twig', {'button_label': ' Ajouter' , 'form_class': 'btn-edit'}) }}
+</div>
+
+    {{ form_end(form) }}
+{% endblock %}

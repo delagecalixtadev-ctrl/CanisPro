@@ -1,0 +1,242 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CanisPro - Accueil{% endblock %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Mr+Dafoe&display=swap');
+
+    .canispro-main-content {
+        font-family: 'Montserrat', sans-serif;
+        background-color: white;
+    }
+
+    /* --- Section Slider Élargie --- */
+    .hero-slider {
+        position: relative;
+        width: 100%;
+        height: 700px; /* Taille augmentée ici */
+        overflow: hidden;
+    }
+
+    .slider-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: 1;
+    }
+
+    .slide.active {
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Points de navigation cliquables */
+    .slider-dots {
+        position: absolute;
+        bottom: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        z-index: 10;
+    }
+
+    .dot {
+        height: 15px;
+        width: 15px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .dot:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .dot.active {
+        background-color: white;
+        transform: scale(1.3);
+        border: 2px solid rgba(0,0,0,0.1);
+    }
+
+    /* --- Section Bienvenue --- */
+    .welcome-section {
+        position: relative;
+        padding: 100px 0;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .welcome-container {
+        position: relative;
+        width: 90%;
+        max-width: 1100px;
+        display: flex;
+        align-items: center;
+    }
+
+    .welcome-box {
+        background-color: #385656;
+        color: white;
+        padding: 70px 60px;
+        width: 100%;
+        max-width: 650px;
+        text-align: center;
+        z-index: 2;
+        position: relative;
+    }
+
+    .script-font {
+        font-family: 'Mr Dafoe', cursive;
+        font-size: 5.5rem;
+        color: #a4c9c9;
+        margin-bottom: 30px;
+        font-weight: 400;
+    }
+
+    .welcome-text {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .welcome-text p {
+        font-weight: 300;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .welcome-text strong {
+        font-weight: 700;
+        font-size: 1.3rem;
+        display: block;
+        margin-bottom: 25px;
+    }
+
+    .paw-bg {
+        position: absolute;
+        right: -80px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 500px;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .paw-bg img {
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    @media (max-width: 900px) {
+        .hero-slider { height: 450px; }
+        .script-font { font-size: 3.5rem; }
+        .paw-bg { width: 300px; right: -20px; opacity: 0.2; }
+    }
+</style>
+
+<main class="canispro-main-content">
+    
+    <section class="hero-slider">
+        <div class="slider-container">
+            <div class="slide active">
+                <img src="{{ asset('img/pleinDeChiens.jpg') }}" alt="Chiens parc">
+            </div>
+            <div class="slide">
+                <img src="{{ asset('img/deuxChiensEtUnBaton.jpg') }}" alt="Chiens baton">
+            </div>
+            <div class="slide">
+                <img src="{{ asset('img/unChienAvecSonJouet.jpg') }}" alt="Chien jouet">
+            </div>
+        </div>
+
+        <div class="slider-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
+    </section>
+
+    <section class="welcome-section">
+        <div class="welcome-container">
+            <div class="welcome-box">
+                <h1 class="script-font">Bienvenue !</h1>
+                <div class="welcome-text">
+                    <p>Vous souhaitez offrir une éducation à vos compagnons ?</p>
+                    <p><strong>Nous sommes là pour eux !</strong></p>
+                    <p>CanisPro Education s'engage à respecter le soin d'élever nos cher petit amis poilus.</p>
+                    <p>Nous proposons des cours pour tout âge et de différents niveaux. Pour plus d'informations, vous pouvez visiter notre site à votre guise.</p>
+                </div>
+            </div>
+            <div class="paw-bg">
+                <img src="{{ asset('img/pattes-chien-contour.png') }}" alt="Empreintes de pattes">
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let autoSlideInterval;
+
+        function showSlide(index) {
+            // Gestion circulaire des index
+            if (index >= slides.length) currentSlide = 0;
+            else if (index < 0) currentSlide = slides.length - 1;
+            else currentSlide = index;
+
+            // Mise à jour des classes active
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide(); // Sécurité
+            autoSlideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+        }
+
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+
+        // Événement clic sur les points
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', () => {
+                showSlide(idx);
+                startAutoSlide(); // Redémarre le timer après un clic manuel
+            });
+        });
+
+        // Lancement initial
+        startAutoSlide();
+    });
+</script>
+{% endblock %}

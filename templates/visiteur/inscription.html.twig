@@ -1,0 +1,227 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - CanisPro{% endblock %}
+
+{% block stylesheets %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+
+    :root {
+        --canis-blue: #548695;      /* Bleu canard exact */
+        --canis-input-bg: #e5eff1;  /* Fond bleu clair des champs */
+        --canis-border: #ccdadd;    /* Bordure fine gris-bleu */
+        --text-menu: #5a7d87;       /* Couleur des liens du menu */
+        --text-gray: #444;
+    }
+
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #ffffff;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* --- HEADER & NAVIGATION EN HAUT --- */
+    header {
+        width: 100%;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .logo-container img {
+        max-width: 180px;
+        height: auto;
+    }
+
+    nav {
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: var(--text-menu);
+        font-size: 0.95rem;
+        font-style: italic;
+        transition: color 0.2s;
+    }
+
+    nav ul li a:hover {
+        color: var(--canis-blue);
+    }
+
+    /* --- CONTENEUR DU FORMULAIRE --- */
+    .main-container {
+        width: 90%;
+        max-width: 850px;
+        border: 1px solid var(--canis-border);
+        border-radius: 40px; 
+        padding: 40px 60px;
+        margin-bottom: 50px;
+    }
+
+    .form-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-bottom: 35px;
+        color: #333;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 40px;
+        row-gap: 18px;
+    }
+
+    .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .field-group label {
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    input {
+        width: 100%;
+        background-color: var(--canis-input-bg);
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        font-family: inherit;
+        font-size: 0.9rem;
+        color: #555;
+        outline: none;
+    }
+
+    input::placeholder {
+        color: #a5b8be;
+        font-size: 0.8rem;
+    }
+
+    /* --- BOUTON ET FOOTER --- */
+    .btn-container {
+        grid-column: span 2;
+        margin-top: 25px;
+    }
+
+    .btn-submit {
+        background-color: var(--canis-blue);
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+        background-color: #456f7b;
+    }
+
+    .form-footer {
+        margin-top: 15px;
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+
+    .form-footer a {
+        color: var(--canis-blue);
+        text-decoration: underline;
+    }
+
+    @media (max-width: 700px) {
+        .form-grid { grid-template-columns: 1fr; }
+        .btn-container { grid-column: span 1; }
+        .main-container { padding: 30px 20px; }
+        nav ul { flex-direction: column; gap: 10px; }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="main-container">
+    <h1 class="form-title">Inscription à l'espace membre</h1>
+
+    <form method="post" action="{{ path('inscription') }}">
+        <div class="form-grid">
+            
+            <div class="field-group">
+                <label>Nom :</label>
+                <input type="text" name="nom" placeholder="Entrer votre nom...">
+            </div>
+            <div class="field-group">
+                <label>Prénom :</label>
+                <input type="text" name="prenom" placeholder="Entrer votre prénom...">
+            </div>
+
+            <div class="field-group">
+                <label>Adresse mail :</label>
+                <input type="email" name="email" placeholder="Ex : canispro@gmail.com...">
+            </div>
+            <div class="field-group">
+                <label>Date de naissance :</label>
+                <input type="text" name="date_naissance" placeholder="JJ/MM/AAAA">
+            </div>
+
+            <div class="field-group">
+                <label>Téléphone :</label>
+                <input type="tel" name="tel" placeholder="+33...">
+            </div>
+            <div class="field-group">
+                <label>Adresse :</label>
+                <input type="text" name="adresse" placeholder="Ex : 3 chemin du...">
+            </div>
+
+            <div class="field-group">
+                <label>Code postal :</label>
+                <input type="text" name="code_postal" placeholder="Entrer votre code postal...">
+            </div>
+            <div class="field-group">
+                <label>Ville :</label>
+                <input type="text" name="ville" placeholder="Ex : London...">
+            </div>
+
+            <div class="field-group">
+                <label>Pseudo :</label>
+                <input type="text" name="login" placeholder="Choisir votre pseudo...">
+            </div>
+            <div class="field-group">
+                <label>Mot de passe :</label>
+                <input type="password" name="password" placeholder="Entrer votre mot de passe...">
+            </div>
+            <div class="field-group">
+                <label>Confirmer le mot de passe :</label>
+                <input type="password" name="password_confirm" placeholder="Confirmer votre mot de passe...">
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn-submit">INSCRIPTION</button>
+                <p class="form-footer">
+                    Déjà un compte ? <a href="{{ path('connexion') }}">Connectez-vous</a>
+                </p>
+            </div>
+        </div>
+
+        <input type="hidden" name="_token" value="{{ csrf_token('register') }}">
+    </form>
+</div>
+{% endblock %}

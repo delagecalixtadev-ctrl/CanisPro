@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Chien - {{ proprietaire.prenom }}{% endblock %}
+
+{% block body %}
+<style>
+    body{
+        background-color: white;
+    }
+    :root {
+        --main-blue: #54889c;
+        --accent-brown: #6d5b4b;
+        --input-bg: #e2eff2;
+        --border-light: #ccd5d8;
+    }
+
+    .espace-chien-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .page-title {
+        font-family: 'Apple Chancery', 'Segoe Print', cursive;
+        font-size: 2.5rem;
+        color: #333;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .dogs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .dog-card {
+        background: #fff;
+        border-radius: 40px;
+        padding: 35px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1.5px solid var(--border-light);
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .dog-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--main-blue);
+    }
+
+    .dog-avatar {
+        width: 90px;
+        height: 90px;
+        background-color: var(--input-bg);
+        border-radius: 50%;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--main-blue);
+        font-size: 2.5rem;
+    }
+
+    .dog-name {
+        font-family: 'Apple Chancery', 'Segoe Print', cursive;
+        font-size: 2rem;
+        color: var(--main-blue);
+        margin-bottom: 10px;
+    }
+
+    .dog-info {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .dog-info li {
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 5px;
+    }
+
+    .info-label { font-weight: bold; color: #888; }
+
+    .level-badge {
+        padding: 4px 12px;
+        background: #e0f2f1;
+        color: #00796b;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .card-actions {
+        margin-top: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn-canispro {
+        display: inline-block;
+        text-decoration: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    .btn-blue { background-color: var(--main-blue); color: white !important; }
+    .btn-brown { background-color: var(--accent-brown); color: white !important; }
+
+    .btn-canispro:hover { opacity: 0.9; transform: scale(1.03); }
+
+    .add-dog-container { text-align: center; margin-bottom: 40px; }
+</style>
+
+<div class="espace-chien-container">
+    <h1 class="page-title">Les chiens de {{ proprietaire.prenom }}</h1>
+
+    <div class="add-dog-container">
+        <a href="{{ path('membreAjoutChien', {'id': proprietaire.id}) }}" class="btn-canispro btn-blue">
+            + Ajouter un compagnon
+        </a>
+    </div>
+
+    {% if proprietaire is empty %}
+        <div style="text-align: center; padding: 50px; background: #f9fbfc; border-radius: 30px; border: 1px dashed var(--border-light);">
+            <p style="color: #888;">Aucun compagnon n'est encore enregistré.</p>
+        </div>
+    {% else %}
+        <div class="dogs-grid">
+            {% for chien in chiens %}
+                <div class="dog-card">
+                    <div class="dog-avatar">
+                        <i class="fas fa-dog"></i> 
+                    </div>
+                    
+                    <div class="dog-name">{{ chien.nom }}</div>
+                    
+                    <ul class="dog-info">
+                        <li>
+                            <span class="info-label">Race</span>
+                            <span>{{ chien.race ? chien.race.nom : 'Croisé' }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Né le</span>
+                            <span>{{ chien.dateNaissance ? chien.dateNaissance : 'Non renseigné' }}</span>
+                        </li>
+                        <li>
+                            <span class="info-label">Niveau</span>
+                            <span class="level-badge">
+                                {{ chien.niveauxApprentissage ? chien.niveauxApprentissage.libelle : 'Débutant' }}
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="card-actions">
+                        {# Ici chien.id fonctionne car on est DANS la boucle #}
+                        <a href="{{ path('membre_chien_modification', {'id': chien.id}) }}" class="btn-canispro btn-brown">
+                            Modifier le profil
+                        </a>
+                        <a href="{{ path('chien_inscrit_seance', {'id': chien.id}) }}" class="btn-canispro btn-blue">
+                            Voir les séances
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

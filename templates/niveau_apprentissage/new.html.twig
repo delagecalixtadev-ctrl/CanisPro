@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New NiveauApprentissage{% endblock %}
+
+{% block body %}
+    <h1>Create new NiveauApprentissage</h1>
+
+    {{ include('niveau_apprentissage/_form.html.twig') }}
+
+    <a href="{{ path('adminListeNiveauApprentissage') }}">back to list</a>
+{% endblock %}

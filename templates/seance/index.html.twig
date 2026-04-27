@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Seance index{% endblock %}
+
+{% block body %}
+<style>
+    /* Import des polices Google */
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;700&display=swap');
+
+    body {
+        background-color: white;
+        font-family: 'Montserrat', sans-serif;
+        padding: 40px;
+        color: #333;
+    }
+
+    /* Titre Calligraphié */
+    h1 {
+        font-family: 'Great Vibes', cursive;
+        text-align: center;
+        font-size: 4rem;
+        margin-bottom: 30px;
+        color: #1a1a1a;
+        font-weight: normal;
+    }
+
+    /* Conteneur de la table */
+    .table-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border: 2px solid #558394; /* Bordure extérieure bleue */
+    }
+
+    /* Header (Bleu Canard) */
+    .table thead th {
+        background-color: #558394;
+        color: white;
+        padding: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.85rem;
+        border: 1px solid #7296a6;
+        text-align: center;
+    }
+
+    /* Lignes et Cellules */
+    .table tbody td {
+        padding: 12px 15px;
+        border: 1px solid #c2d1d9;
+        text-align: center;
+        color: #555;
+        font-size: 0.85rem;
+        text-transform: uppercase; /* Style "All Caps" de l'image */
+    }
+
+    /* Effet au survol des lignes */
+    .table tbody tr:hover {
+        background-color: #f0f4f5;
+    }
+
+    /* Style des liens d'actions */
+    .actions-links a {
+        text-decoration: none;
+        color: #558394;
+        font-weight: bold;
+        margin: 0 8px;
+        font-size: 0.75rem;
+        border-bottom: 1px solid transparent;
+        transition: all 0.3s;
+    }
+
+    .actions-links a:hover {
+        border-bottom: 1px solid #558394;
+        color: #3a5c69;
+    }
+
+    /* Bouton Ajouter en bas */
+    .btn-create {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 12px 25px;
+        background-color: #558394;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background 0.3s;
+    }
+
+    .btn-create:hover {
+        background-color: #3f6472;
+    }
+</style>
+
+    <h1>Seance index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for seance in seances %}
+            <tr>
+                <td>{{ seance.id }}</td>
+                <td>{{ seance.date }}</td>
+                <td>{{ seance.heure }}</td>
+                  <td class="actions-links">
+                    <a href="{{ path('adminAfficheUneSeance', {'id': seance.id}) }}">show</a>
+                    <a href="{{ path('adminModifierUneSeance', {'id': seance.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('adminAjoutSeance') }}">Create new</a>
+{% endblock %}

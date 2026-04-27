@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Séances de {{ chien.nom }}{% endblock %}
+
+{% block body %}
+<style>
+    :root {
+        --main-blue: #54889c;
+        --accent-brown: #6d5b4b;
+        --input-bg: #e2eff2;
+        --border-light: #ccd5d8;
+    }
+
+    .seances-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    .page-title {
+        font-family: 'Apple Chancery', 'Segoe Print', cursive;
+        font-size: 2.5rem;
+        color: #333;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .seance-card {
+        background: #fff;
+        border-radius: 25px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1.5px solid var(--border-light);
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .seance-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--main-blue);
+    }
+
+    .seance-info {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .seance-info li {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 5px;
+    }
+
+    .info-label { font-weight: bold; color: #888; }
+
+    .btn-canispro {
+        display: inline-block;
+        text-decoration: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: 0.3s;
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .btn-blue { background-color: var(--main-blue); color: white !important; }
+    .btn-canispro:hover { opacity: 0.9; transform: scale(1.03); }
+</style>
+
+<div class="seances-container">
+    <h1 class="page-title">Séances de {{ chien.nom }} </h1>
+
+    {% if inscriptions is empty %}
+        <div style="text-align: center; padding: 50px; background: #f9fbfc; border-radius: 30px; border: 1px dashed var(--border-light);">
+            <p style="color: #888;">Aucune inscription pour ce chien.</p>
+        </div>
+    {% else %}
+        {% for inscription in inscriptions %}
+            <div class="seance-card">
+                <ul class="seance-info">
+                    <li>
+                        <span class="info-label">Date</span>
+                        <span>{{ inscription.seance?.date ?: 'Non renseignée' }}</span>
+                    </li>
+                    <li>
+                        <span class="info-label">Heure</span>
+                        <span>{{ inscription.seance?.heure ?: 'Non renseignée' }}</span>
+                    </li>
+                    <li>
+                        <span class="info-label">Cours</span>
+                        <span>{{ inscription.seance?.cours?.typeEntrainement ?: 'Non renseigné' }}</span>
+                    </li>
+                    <li>
+                        <span class="info-label">Niveau</span>
+                        <span>{{ inscription.seance?.cours?.niveauxApprentissage?.libelle ?: 'Débutant' }}</span>
+                    </li>
+                </ul>
+
+                 {{ include('inscription/_delete_form.html.twig') }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chiens index{% endblock %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;700&display=swap');
+
+    body {
+        background-color: white;
+        font-family: 'Montserrat', sans-serif;
+        padding: 40px;
+        color: #333;
+    }
+
+    h1 {
+        font-family: 'Great Vibes', cursive;
+        text-align: center;
+        font-size: 4rem;
+        margin-bottom: 30px;
+        color: #1a1a1a;
+        font-weight: normal;
+    }
+
+    .table-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border: 2px solid #558394;
+    }
+
+    .table thead th {
+        background-color: #558394;
+        color: white;
+        padding: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.85rem;
+        border: 1px solid #7296a6;
+        text-align: center;
+    }
+
+    .table tbody td {
+        padding: 12px 15px;
+        border: 1px solid #c2d1d9;
+        text-align: center;
+        color: #555;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f0f4f5;
+    }
+
+    .actions-links a {
+        text-decoration: none;
+        color: #558394;
+        font-weight: bold;
+        margin: 0 8px;
+        font-size: 0.75rem;
+        border-bottom: 1px solid transparent;
+        transition: all 0.3s;
+    }
+
+    .actions-links a:hover {
+        border-bottom: 1px solid #558394;
+        color: #3a5c69;
+    }
+
+    .btn-create {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 12px 25px;
+        background-color: #558394;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background 0.3s;
+    }
+
+    .btn-create:hover {
+        background-color: #3f6472;
+    }
+</style>
+
+<h1>Gérer les chiens</h1>
+
+<div style="text-align: center;">
+    <a href="{{ path('adminAjoutChien') }}" class="btn-create">Ajouter un chien</a>
+</div>
+
+<br>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Date naissance</th>
+                <th>Race</th>
+                <th>Niveau</th>
+                <th>Propriétaire</th>
+                <th>Inscriptions</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for chien in chiens %}
+            <tr>
+                <td>{{ chien.id }}</td>
+                <td>{{ chien.nom }}</td>
+                <td>{{ chien.dateNaissance }}</td>
+
+                <td>{% if chien.race %}
+    {{ chien.race.nom }}
+{% else %}
+      
+{% endif %}</td>
+                <td>{% if chien.niveauxApprentissage %}
+                {{chien.niveauxApprentissage.libelle }}
+                {% else %}
+     
+{% endif %}
+                
+                </td>
+                <td>{% if chien.proprietaire %}
+                {{ chien.proprietaire.nom }}
+                {% else %}
+     
+{% endif %}
+                </td>
+                <td>{{ chien.inscriptions|length }}</td>
+
+                <td class="actions-links">
+                    <a href="{{ path('adminAfficherUnChien', {'id': chien.id}) }}">Voir</a>
+                    <a href="{{ path('adminModifierUnChien', {'id': chien.id}) }}">Modifier</a>
+                </td>
+            </tr>
+
+        {% else %}
+            <tr>
+                <td colspan="8">Aucun chien trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}

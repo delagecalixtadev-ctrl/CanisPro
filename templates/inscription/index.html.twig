@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Inscriptions{% endblock %}
+
+{% block stylesheets %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;700&display=swap');
+    
+    .page-wrapper {
+        font-family: 'Montserrat', sans-serif;
+        padding: 40px;
+        background-color: #ffffff;
+    }
+
+    h1 {
+        font-family: 'Great Vibes', cursive;
+        text-align: center;
+        font-size: 3.5rem;
+        margin-bottom: 30px;
+        color: #1a1a1a;
+    }
+
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        justify-content: center;
+    }
+
+    .card-inscription {
+        background: #fff;
+        border: 2px solid #d8e2e6;
+        border-radius: 35px;
+        padding: 25px;
+        width: 340px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+
+    .card-field { margin-bottom: 15px; }
+
+    .card-field label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    .field-box {
+        background-color: #e9f3f5;
+        border-radius: 10px;
+        padding: 10px 15px;
+        color: #5a7d85;
+        font-size: 0.9rem;
+    }
+
+    /* Actions : Alignement des 3 boutons */
+    .card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: space-between;
+        margin-top: 25px;
+    }
+
+    .btn-action {
+        text-decoration: none;
+        color: white;
+        background-color: #4d8396;
+        padding: 10px 0;
+        width: 47%; /* Pour View et Edit */
+        text-align: center;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: 0.3s;
+    }
+
+    .btn-action:hover { opacity: 0.9; }
+
+    .btn-delete:hover { background-color: #a93226 !important; }
+
+    .btn-new {
+        display: inline-block;
+        color: #4d8396;
+        text-decoration: none;
+        font-weight: bold;
+        border: 2px solid #4d8396;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <h1>Gestion Inscription</h1>
+
+    <div style="text-align: center;">
+        <a href="{{ path('adminAjoutInscription') }}" class="btn-new">+ CREATE NEW</a>
+    </div>
+
+    <div class="cards-container">
+        {% for inscription in inscriptions %}
+            <div class="card-inscription">
+                
+                <div class="card-field">
+                    <label>Séance :</label>
+                    <div class="field-box">
+                        {% if inscription.seance %}
+                            {{ inscription.seance.date }} à {{ inscription.seance.heure }}
+                        {% else %}
+                            Non définie
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-field">
+                    <label>Chien :</label>
+                    <div class="field-box">
+                        {{ inscription.chien ? inscription.chien.nom : 'Inconnu' }}
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    {# Boutons classiques #}
+                    <a href="{{ path('adminAfficheUneInscription', {'id': inscription.id}) }}" class="btn-action">VIEW</a>
+                    <a href="{{ path('adminModifierUneInscription', {'id': inscription.id}) }}" class="btn-action">EDIT</a>
+                    
+                    {# Inclusion du formulaire de suppression (occupe une ligne ou se glisse selon la place) #}
+                    {{ include('inscription/_delete_form.html.twig') }}
+                </div>
+            </div>
+        {% else %}
+            <p>Aucune inscription trouvée.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

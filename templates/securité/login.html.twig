@@ -1,0 +1,187 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - CanisPro{% endblock %}
+
+{% block stylesheets %}
+<style>
+    :root {
+        --main-blue: #54889c;
+        --text-gray: #4a4a4a;
+        --input-bg: #e2eff2;
+        --border-light: #ccd5d8;
+    }
+
+    body {
+        background-color: #ffffff;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: var(--text-gray);
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding-top: 40px;
+        position: relative;
+    }
+
+    /* Header & Nav */
+    .logo-container {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .nav-links {
+        margin-bottom: 40px;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--main-blue);
+        margin: 0 15px;
+        font-style: italic;
+        font-size: 1.1rem;
+    }
+
+    /* La Carte de Login */
+    .login-card {
+        border: 1.5px solid var(--border-light);
+        border-radius: 40px;
+        padding: 50px 80px;
+        width: 100%;
+        max-width: 550px;
+        background: #fff;
+        z-index: 2;
+    }
+
+    .login-title {
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 400;
+        margin-bottom: 45px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 12px;
+        font-size: 1.2rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 14px 20px;
+        background-color: var(--input-bg);
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: #555;
+        box-sizing: border-box;
+    }
+
+    .form-input::placeholder {
+        color: #9dbdc6;
+        font-style: italic;
+    }
+
+    /* Bouton Connexion */
+    .btn-submit {
+        background-color: var(--main-blue);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 35px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .btn-submit:hover {
+        background-color: #436e7f;
+    }
+
+    .footer-links {
+        margin-top: 30px;
+        font-style: italic;
+        font-size: 0.95rem;
+    }
+
+    .footer-links a {
+        color: var(--main-blue);
+        text-decoration: underline;
+    }
+
+    /* Image du chien en bas à gauche */
+    .dog-illustration {
+        position: fixed;
+        bottom: 20px;
+        left: 50px;
+        max-width: 180px;
+        opacity: 0.8;
+        z-index: 1;
+    }
+
+    /* Alertes Symfony */
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    
+
+    <div class="login-card">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('deconnexion') }}">Déconnexion</a>
+                </div>
+            {% endif %}
+
+            <h1 class="login-title">Connexion à l'espace membre</h1>
+
+            <div class="form-group">
+                <label for="username">Identifiant :</label>
+                <input type="text" value="{{ last_username }}" name="_username" id="username" 
+                       class="form-input" placeholder="Entrer votre identifiant..." required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="_password" id="password" 
+                       class="form-input" placeholder="Entrer votre mot de passe..." required>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn-submit" type="submit">CONNEXION</button>
+
+            <div class="footer-links">
+                Pas de compte ? <a href="#">Inscrivez-vous</a>
+            </div>
+        </form>
+    </div>
+
+    <img src="https://path-to-your-dog-image.png" class="dog-illustration" alt="">
+</div>
+{% endblock %}

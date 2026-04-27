@@ -1,0 +1,244 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CanisPro - Séances{% endblock %}
+
+{% block body %}
+{# Sécurité pour éviter le crash si la variable n'est pas envoyée #}
+{% set seances = seances|default([]) %}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Mr+Dafoe&display=swap" rel="stylesheet">
+
+<style>
+    body { background-color: white !important; margin: 0; font-family: 'Montserrat', sans-serif; color: #333; scroll-behavior: smooth; }
+    .seances-wrapper { padding: 40px 0; }
+    .seances-container { max-width: 1100px; margin: 0 auto; text-align: center; }
+    
+    /* Menu latéral */
+    .side-nav { position: fixed; left: 50px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
+    .nav-bar { width: 45px; height: 7px; background-color: #a8c3c6; border-radius: 3px; transition: 0.3s; }
+    .nav-text { font-family: 'Mr Dafoe', cursive !important; font-size: 2.2rem; color: #5e8d93; margin-left: 15px; opacity: 0; transition: 0.3s; position: absolute; left: 50px; white-space: nowrap; }
+    .nav-item { display: flex; align-items: center; text-decoration: none; position: relative; }
+    .nav-item:hover .nav-bar { background-color: #5e8d93; }
+    .nav-item:hover .nav-text { opacity: 1; }
+
+    /* Titres */
+    .signature-title { font-family: 'Mr Dafoe', cursive !important; font-size: 6.5rem; margin-bottom: 0; color: #222; }
+    .course-subtitle { font-size: 1rem; letter-spacing: 4px; color: #666; text-transform: uppercase; margin-top: -15px; }
+    .availability-text { color: #d4a373; font-size: 1.2rem; display: block; margin-bottom: 50px; }
+
+    /* Grille et Colonnes */
+    .sessions-grid { display: flex; justify-content: center; gap: 40px; margin-bottom: 80px; }
+    .session-column { 
+        flex: 1; 
+        background: #f9f9f9; 
+        padding: 25px; 
+        border-radius: 15px; 
+        border: 1px solid #eee; 
+        display: flex; 
+        flex-direction: column; 
+        min-height: 250px; 
+    }
+    .type-header { font-size: 0.9rem; letter-spacing: 1.5px; color: #5e8d93; margin-bottom: 20px; text-transform: uppercase; font-weight: 700; }
+    
+    .day-label { font-weight: 700; font-size: 1.1rem; display: block; margin: 15px 0 8px 0; }
+    .time-slot { border: 2px solid #5e8d93; background-color: #f0fafa; color: #5e8d93; padding: 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; display: inline-block; min-width: 80px; margin-bottom: 10px; }
+    .time-slot.selected { background-color: #385656 !important; color: white !important; border-color: #385656 !important; }
+    
+    .btn-reserve { background-color: #a8c3c6; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: not-allowed; margin-top: auto; font-weight: 700; transition: 0.3s; width: 100%; opacity: 0.6; }
+    .btn-reserve.active-dark { background-color: #385656; cursor: pointer; opacity: 1; }
+    .separator { width: 500px; border-top: 1px solid #ddd; margin: 60px auto; }
+    .no-data { color: #aaa; font-size: 0.9rem; margin: auto 0; }
+</style>
+
+<div class="side-nav">
+    <a href="#socia" class="nav-item"><div class="nav-bar"></div><span class="nav-text">Sociabilisation</span></a>
+    <a href="#obe" class="nav-item"><div class="nav-bar"></div><span class="nav-text">Obéissance</span></a>
+    <a href="#agi" class="nav-item"><div class="nav-bar"></div><span class="nav-text">Agilité</span></a>
+</div>
+
+<div class="seances-wrapper">
+    <div class="seances-container">
+
+        {# --- SECTION 1 : SOCIABILISATION --- #}
+        <section id="socia">
+            <h2 class="signature-title">Sociabilisation</h2>
+            <p class="course-subtitle">Individuel ou Collectif</p>
+            <span class="availability-text">Disponibilités</span>
+
+            <div class="sessions-grid">
+                {# Individuel #}
+                <div class="session-column" id="col-socia-indiv">
+                    <h3 class="type-header">Individuel</h3>
+                    {% set found = false %}
+                    {% for s in seances %}
+                        {% if s.cours.typeEntrainement == 'Sociabilisation' and s.cours.esCollectif == 0 %}
+                            <span class="day-label">{{ s.date }}</span>
+                            <div class="time-slot" onclick="toggleSlot(this, 'col-socia-indiv')" data-url="{{ app.user ? path('app_reservation', { seance: s.id }) : path('connexion') }}">
+                                {{ s.heure }}h00
+                            </div>
+                            {% set found = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if not found %}
+                        <p class="no-data">Aucun créneau disponible</p>
+                    {% else %}
+                        <a href="#" class="reserve-link"><button class="btn-reserve">Réserver</button></a>
+                    {% endif %}
+                </div>
+
+                {# Collectif #}
+                <div class="session-column" id="col-socia-coll">
+                    <h3 class="type-header">Collectif</h3>
+                    {% set found = false %}
+                    {% for s in seances %}
+                        {% if s.cours.typeEntrainement == 'Sociabilisation' and s.cours.esCollectif == 1 %}
+                            <span class="day-label">{{ s.date }}</span>
+                            <div class="time-slot" onclick="toggleSlot(this, 'col-socia-coll')" data-url="{{ app.user ? path('app_reservation', { seance: s.id }) : path('connexion') }}">
+                                {{ s.heure }}h00
+                            </div>
+                            {% set found = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if not found %}
+                        <p class="no-data">Aucun créneau disponible</p>
+                    {% else %}
+                        <a href="#" class="reserve-link"><button class="btn-reserve">Réserver</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <hr class="separator">
+
+        {# --- SECTION 2 : OBÉISSANCE --- #}
+        <section id="obe">
+            <h2 class="signature-title">Obéissance</h2>
+            <div class="sessions-grid">
+                {# Individuel #}
+                <div class="session-column" id="col-obe-indiv">
+                    <h3 class="type-header">Individuel</h3>
+                    {% set found = false %}
+                    {% for s in seances %}
+                        {% if s.cours.typeEntrainement == 'Obeissance' and s.cours.esCollectif == 0 %}
+                            <span class="day-label">{{ s.date }}</span>
+                            <div class="time-slot" onclick="toggleSlot(this, 'col-obe-indiv')" data-url="{{ app.user ? path('app_reservation', { seance: s.id }) : path('connexion') }}">
+                                {{ s.heure }}h00
+                            </div>
+                            {% set found = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if not found %}
+                        <p class="no-data">Aucun créneau disponible</p>
+                    {% else %}
+                        <a href="#" class="reserve-link"><button class="btn-reserve">Réserver</button></a>
+                    {% endif %}
+                </div>
+
+                {# Collectif #}
+                <div class="session-column" id="col-obe-coll">
+                    <h3 class="type-header">Collectif</h3>
+                    {% set found = false %}
+                    {% for s in seances %}
+                        {% if s.cours.typeEntrainement == 'Obeissance' and s.cours.esCollectif == 1 %}
+                            <span class="day-label">{{ s.date }}</span>
+                            <div class="time-slot" onclick="toggleSlot(this, 'col-obe-coll')" data-url="{{ app.user ? path('app_reservation', { seance: s.id }) : path('connexion') }}">
+                                {{ s.heure }}h00
+                            </div>
+                            {% set found = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if not found %}
+                        <p class="no-data">Aucun créneau disponible</p>
+                    {% else %}
+                        <a href="#" class="reserve-link"><button class="btn-reserve">Réserver</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <hr class="separator">
+
+        {# --- SECTION 3 : AGILITÉ --- #}
+        <section id="agi">
+            <h2 class="signature-title">Agilité</h2>
+            <div class="sessions-grid">
+                {# Individuel #}
+                <div class="session-column" id="col-agi-indiv">
+                    <h3 class="type-header">Individuel</h3>
+                    {% set found = false %}
+                    {% for s in seances %}
+                        {# ATTENTION : Vérifie si c'est 'Agility' ou 'Agilité' dans ta base #}
+                        {% if s.cours.typeEntrainement == 'Agility' and s.cours.esCollectif == 0 %}
+                            <span class="day-label">{{ s.date }}</span>
+                            <div class="time-slot" onclick="toggleSlot(this, 'col-agi-indiv')" data-url="{{ app.user ? path('app_reservation', { seance: s.id }) : path('connexion') }}">
+                                {{ s.heure }}h00
+                            </div>
+                            {% set found = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if not found %}
+                        <p class="no-data">Aucun créneau disponible</p>
+                    {% else %}
+                        <a href="#" class="reserve-link"><button class="btn-reserve">Réserver</button></a>
+                    {% endif %}
+                </div>
+
+                {# Collectif #}
+                <div class="session-column" id="col-agi-coll">
+                    <h3 class="type-header">Collectif</h3>
+                    {% set found = false %}
+                    {% for s in seances %}
+                        {% if s.cours.typeEntrainement == 'Agility' and s.cours.esCollectif == 1 %}
+                            <span class="day-label">{{ s.date }}</span>
+                            <div class="time-slot" onclick="toggleSlot(this, 'col-agi-coll')" data-url="{{ app.user ? path('app_reservation', { seance: s.id }) : path('connexion') }}">
+                                {{ s.heure }}h00
+                            </div>
+                            {% set found = true %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if not found %}
+                        <p class="no-data">Aucun créneau disponible</p>
+                    {% else %}
+                        <a href="#" class="reserve-link"><button class="btn-reserve">Réserver</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script>
+    /**
+     * Gère la sélection d'un créneau et met à jour le lien du bouton de réservation unique de la colonne.
+     */
+    function toggleSlot(element, columnId) {
+        const column = document.getElementById(columnId);
+        const allSlots = column.querySelectorAll('.time-slot');
+        const reserveBtn = column.querySelector('.btn-reserve');
+        const reserveLink = column.querySelector('.reserve-link');
+
+        // 1. Désélectionner tous les créneaux de cette colonne
+        allSlots.forEach(slot => slot.classList.remove('selected'));
+        
+        // 2. Sélectionner le créneau cliqué
+        element.classList.add('selected');
+
+        // 3. Récupérer l'URL personnalisée (data-url) stockée dans le créneau
+        const targetUrl = element.getAttribute('data-url');
+
+        // 4. Mettre à jour le bouton unique de la colonne
+        if (reserveLink && reserveBtn) {
+            reserveLink.setAttribute('href', targetUrl);
+            reserveBtn.classList.add('active-dark');
+            reserveBtn.style.cursor = "pointer";
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,229 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CanisPro - Informations{% endblock %}
+
+{% block body %}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    .info-wrapper {
+        font-family: 'Montserrat', sans-serif;
+        color: #333;
+        background-color: #fff;
+        padding: 60px 0;
+        overflow-x: hidden;
+    }
+
+    .info-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* --- SECTION QUI SOMMES-NOUS (BLOC DÉCALÉ) --- */
+    .about-section {
+        position: relative;
+        margin-bottom: 150px;
+        display: flex;
+        justify-content: flex-end; /* Bloc texte à droite */
+    }
+
+    .about-image-wrapper {
+        position: absolute;
+        left: 0;
+        top: 80px;
+        z-index: 2;
+        width: 280px;
+    }
+
+    .about-image-wrapper img {
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .about-content-card {
+        background-color: #3d6060; /* Couleur bleu/vert sombre */
+        color: white;
+        padding: 80px 60px;
+        width: 75%;
+        min-height: 450px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .about-content-card h2 {
+        font-family: 'Cinzel', serif;
+        font-size: 3rem;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .about-content-card p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+    /* --- SECTION ENGAGEMENTS --- */
+    .engagements-section {
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .engagements-header {
+        margin-bottom: 60px;
+    }
+
+    .engagements-header span {
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        font-size: 0.8rem;
+        color: #888;
+    }
+
+    .engagements-header h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 3rem;
+        text-transform: uppercase;
+        letter-spacing: 8px;
+        position: relative;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .engagements-header h2::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        left: -10%;
+        width: 120%;
+        height: 1px;
+        background-color: #ddd;
+    }
+
+    .engagements-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 50px;
+        margin-top: 80px;
+    }
+
+    .engagements-text {
+        flex: 1;
+        text-align: center;
+    }
+
+    .engagements-text h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .engagements-text p {
+        line-height: 2;
+        color: #666;
+    }
+
+    .engagements-image {
+        width: 350px;
+    }
+
+    .engagements-image img {
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .about-image-wrapper { position: relative; top: 0; margin: 0 auto 30px; }
+        .about-section { flex-direction: column; align-items: center; }
+        .about-content-card { width: 100%; padding: 40px 20px; }
+        .engagements-content { flex-direction: column; }
+    }
+</style>
+
+<div class="info-wrapper">
+    <div class="info-container">
+
+        <section class="about-section">
+            <div class="about-image-wrapper">
+                <img src="{{ asset('img/Calixta.jfif') }}" alt="Chiens Cali">
+            </div>
+            <div class="about-content-card">
+                <h2>Qui sommes nous ?</h2>
+                <p>CanisPro Éducation est un centre spécialisé dans l’éducation canine moderne, 
+                dédié à accompagner les propriétaires et leurs chiens vers une relation harmonieuse et équilibrée.</p> <br>
+
+                <p>Notre approche repose sur une compréhension approfondie du comportement animal et 
+                sur le respect des besoins spécifiques de chaque chien. Nous considérons le chien comme un véritable compagnon de vie, 
+                et non simplement comme un animal à dresser.</p><br>
+
+                <p>Notre équipe de professionnels passionnés propose des solutions adaptées à tous les profils, 
+                du chiot au chien confirmé. À travers des cours personnalisés ou collectifs, nous aidons les maîtres 
+                à mieux communiquer avec leur animal, à renforcer leur complicité et à favoriser une cohabitation sereine.</p><br>
+
+                <p>Chez CanisPro Éducation, nous croyons que l’éducation est avant tout un échange, basé sur la confiance, la patience et la bienveillance.</p>
+            </div>
+        </section>
+
+        <section class="engagements-section">
+            <div class="engagements-header">
+                <span>nos</span>
+                <h2>Engagements</h2>
+            </div>
+
+            <div class="engagements-content">
+                <div class="engagements-text">
+                    <h3>CANISPRO EDUCATION S’ENGAGE À</h3>
+                        <p>Chez CanisPro Éducation, nous nous engageons à offrir un accompagnement de qualité,
+                        centré sur le bien-être du chien et de son propriétaire.
+                        </p>
+                <ul>
+    
+                <strong>Respect du bien-être animal</strong><br>
+                Nous privilégions des méthodes d’éducation positives, sans violence ni contrainte,
+                respectant le rythme et la sensibilité de chaque chien.<br><br>
+  
+                 <strong>Approche personnalisée</strong><br>
+                Chaque duo maître-chien est unique. Nous adaptons nos conseils et nos séances
+                en fonction des besoins, du niveau et des objectifs de chacun.<br><br>
+
+                <strong>Développement de la relation humain-animal</strong><br>
+                Nous mettons l’accent sur la communication, la compréhension et la socialisation
+                afin de construire une relation saine et durable.<br><br>
+
+                <strong>Accessibilité pour tous</strong><br>
+                Nos services sont pensés pour être accessibles à différents profils d’utilisateurs,
+                du grand public aux membres du centre.<br><br>
+
+                <strong>Professionnalisme et sécurité</strong><br>
+                Nous garantissons un encadrement sérieux, des informations fiables et une gestion
+                sécurisée des données et des inscriptions.<br><br>
+
+            <strong>Amélioration continue</strong><br>
+            Nous cherchons constamment à faire évoluer nos pratiques et nos services afin de
+            répondre au mieux aux attentes de nos clients et aux besoins des chiens.
+
+            </ul>
+
+                </div>
+                
+                <div class="engagements-image">
+                    <img src="{{ asset('img/Calixta.jfif') }}" alt="Engagement Cali">
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+{% endblock %}

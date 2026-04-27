@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}un propriétaire{% endblock %}
+
+{% block body %}
+<style>
+    body{
+        background-color: white;
+    }
+
+    :root {
+        --main-blue: #54889c;
+        --input-bg: #e2eff2; /* Le bleu clair de ton image */
+        --border-light: #ccd5d8;
+        --text-gray: #4a4a4a;
+    }
+
+    .page-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-card {
+        background: white;
+        border: 1.5px solid var(--border-light);
+        border-radius: 40px; /* Coins très arrondis comme sur ton modèle */
+        padding: 40px 60px;
+        width: 100%;
+        max-width: 550px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+
+    .form-title {
+        text-align: center;
+        color: #333;
+        font-size: 1.8rem;
+        font-weight: 500;
+        margin-bottom: 35px;
+    }
+
+    /* Style des lignes du formulaire */
+    .form-row {
+        margin-bottom: 20px;
+    }
+
+    .form-row label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-gray);
+        font-size: 0.95rem;
+    }
+
+    /* Style des inputs calqué sur l'image de login */
+    .form-row input, .form-row select, .form-row textarea {
+        width: 100%;
+        padding: 12px 15px;
+        background-color: var(--input-bg);
+        border: 1px solid transparent;
+        border-radius: 10px;
+        font-size: 1rem;
+        color: #555;
+        transition: all 0.3s ease;
+        box-sizing: border-box; /* Évite que l'input dépasse */
+    }
+
+    .form-row input:focus {
+        outline: none;
+        border-color: var(--main-blue);
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(84, 136, 156, 0.1);
+    }
+
+    /* Bouton de validation (Style Pilule) */
+    .btn-submit {
+        display: block;
+        width: fit-content;
+        margin: 30px auto 0;
+        background-color: var(--main-blue);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 12px 40px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.3s;
+    }
+
+    .btn-submit:hover {
+        background-color: #436e7f;
+        transform: translateY(-2px);
+    }
+
+    /* Gestion des erreurs Symfony */
+    .form-errors ul {
+        list-style: none;
+        padding: 0;
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+     .btn-edit {
+        display: inline-block;
+        margin-top: 30px;
+        background-color: #7baeb5;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .btn-edit:hover {
+        background-color: #5d8a91;
+        color: white;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="form-card">
+        <h1 class="form-title">
+          Moi je suis : 
+        </h1>
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                
+            <div class="form-group">
+            {{ form_label(form.Nom) }}
+            {{ form_widget(form.Nom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Nom) }}
+            </div>
+
+            <div class="form-group">
+            {{ form_label(form.Prenom) }}
+            {{ form_widget(form.Prenom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Prenom) }}
+            </div>
+
+            <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+            </div>
+
+            <div class="form-group">
+            {{ form_label(form.tel) }}
+            {{ form_widget(form.tel, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.tel) }}
+            </div>
+
+            <div class="form-group">
+            {{ form_label(form.date_Naissance) }}
+            {{ form_widget(form.date_Naissance, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.date_Naissance) }}
+            </div>
+
+            <div class="form-group" >
+            {{ form_label(form.Adresse) }}
+            {{ form_widget(form.Adresse, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Adresse) }}
+            </div>
+
+            <div class="form-group">
+            {{ form_label(form.Code_Postal) }}
+            {{ form_widget(form.Code_Postal, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Code_Postal) }}
+            </div>
+
+            <div class="form-group">
+            {{ form_label(form.Ville) }}
+            {{ form_widget(form.Ville, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.Ville) }}
+            </div>
+
+            <div class="form-group" style="display: none;">
+            {{ form_label(form.user) }}
+            {{ form_widget(form.user, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.user) }}
+            </div>
+
+          {{ form_widget(form) }}
+    <button type="submit" class="btn-edit">{{ button_label|default('Enregistrer') }}</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
